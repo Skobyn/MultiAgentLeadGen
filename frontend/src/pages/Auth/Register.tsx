@@ -180,9 +180,12 @@ const Register: React.FC = () => {
             />
             <label htmlFor="acceptTerms" className="ml-2 block text-sm text-gray-900">
               I agree to the{' '}
-              <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+              <button 
+                type="button"
+                className="font-medium text-primary-600 hover:text-primary-500"
+              >
                 Terms and Conditions
-              </a>
+              </button>
             </label>
           </div>
 
