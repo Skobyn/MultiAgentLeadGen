@@ -246,8 +246,9 @@ const Dashboard: React.FC = () => {
           </h3>
           <div className="text-sm">
             <a
-              href="#"
+              href="/tasks"
               className="font-medium text-primary-600 hover:text-primary-500"
+              aria-label="View all tasks"
             >
               View all
             </a>
