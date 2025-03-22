@@ -48,30 +48,30 @@ const enrichmentOptions = [
 
 // Sample advanced query
 const sampleJsonQuery = `{
-  \"sources\": [\"apollo\", \"linkedin\", \"crunchbase\"],
-  \"filters\": {
-    \"jobTitle\": {
-      \"includes\": [\"CTO\", \"Chief Technology Officer\", \"VP of Engineering\"],
-      \"excludes\": [\"Assistant\", \"Associate\"]
+  "sources": ["apollo", "linkedin", "crunchbase"],
+  "filters": {
+    "jobTitle": {
+      "includes": ["CTO", "Chief Technology Officer", "VP of Engineering"],
+      "excludes": ["Assistant", "Associate"]
     },
-    \"company\": {
-      \"size\": {
-        \"min\": 50,
-        \"max\": 1000
+    "company": {
+      "size": {
+        "min": 50,
+        "max": 1000
       },
-      \"industry\": [\"SaaS\", \"FinTech\", \"Healthcare IT\"],
-      \"funding\": {
-        \"min\": 5000000,
-        \"max\": 50000000
+      "industry": ["SaaS", "FinTech", "Healthcare IT"],
+      "funding": {
+        "min": 5000000,
+        "max": 50000000
       }
     },
-    \"location\": {
-      \"countries\": [\"United States\", \"Canada\"],
-      \"cities\": [\"San Francisco\", \"New York\", \"Boston\", \"Toronto\"]
+    "location": {
+      "countries": ["United States", "Canada"],
+      "cities": ["San Francisco", "New York", "Boston", "Toronto"]
     }
   },
-  \"enrichment\": [\"emailVerification\", \"linkedinData\", \"personalization\"],
-  \"limit\": 200
+  "enrichment": ["emailVerification", "linkedinData", "personalization"],
+  "limit": 200
 }`;
 
 const LeadGeneration: React.FC = () => {
