@@ -1,0 +1,14 @@
+{
+  "name": "multiagent-leadgen",
+  "version": "1.0.0",
+  "description": "Web-based multi-source lead generation and email campaign management platform with AI-powered features",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skobyn/MultiAgentLeadGen.git"
+  },
+  "author": "",
+  "license": "MIT"
+}
