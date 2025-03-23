@@ -4,7 +4,10 @@ import { Integration, SystemConfiguration } from '../../types';
 
 const DataSourceSettings: React.FC = () => {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
-  const [config, setConfig] = useState<SystemConfiguration>({ defaultDataSources: [] });
+  const [config, setConfig] = useState<SystemConfiguration>({ 
+    defaultDataSources: [],
+    defaultEnrichmentServices: [] 
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
@@ -72,6 +75,7 @@ const DataSourceSettings: React.FC = () => {
       
       // Update configuration on server
       const response = await axios.put('/api/settings', {
+        ...config,
         defaultDataSources: updatedDefaults
       });
       

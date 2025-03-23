@@ -4,7 +4,10 @@ import { Integration, SystemConfiguration } from '../../types';
 
 const EnrichmentSettings: React.FC = () => {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
-  const [config, setConfig] = useState<SystemConfiguration>({ defaultEnrichmentServices: [] });
+  const [config, setConfig] = useState<SystemConfiguration>({ 
+    defaultEnrichmentServices: [],
+    defaultDataSources: [] 
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
@@ -72,6 +75,7 @@ const EnrichmentSettings: React.FC = () => {
       
       // Update configuration on server
       const response = await axios.put('/api/settings', {
+        ...config,
         defaultEnrichmentServices: updatedDefaults
       });
       
