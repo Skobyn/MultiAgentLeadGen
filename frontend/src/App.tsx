@@ -4,7 +4,8 @@ import Layout from './components/Layout/Layout';
 
 // Lazy load pages for better performance
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
-const LeadGeneration = lazy(() => import('./pages/LeadGeneration/LeadGeneration'));
+const LeadGenerationPage = lazy(() => import('./pages/LeadGenerationPage'));
+const JobStatusPage = lazy(() => import('./pages/JobStatusPage'));
 const EmailCampaigns = lazy(() => import('./pages/EmailCampaigns/EmailCampaigns'));
 const ChatbotInterface = lazy(() => import('./pages/ChatbotInterface/ChatbotInterface'));
 const Analytics = lazy(() => import('./pages/Analytics/Analytics'));
@@ -46,10 +47,19 @@ function App() {
           </ProtectedRoute>
         }>
           <Route index element={<Dashboard />} />
-          <Route path="leads" element={<LeadGeneration />} />
+          
+          {/* Lead Generation Routes */}
+          <Route path="leads">
+            <Route index element={<Navigate to="/leads/generate" replace />} />
+            <Route path="generate" element={<LeadGenerationPage />} />
+            <Route path="jobs/:jobId" element={<JobStatusPage />} />
+          </Route>
+          
           <Route path="email-campaigns" element={<EmailCampaigns />} />
           <Route path="chatbot" element={<ChatbotInterface />} />
           <Route path="analytics" element={<Analytics />} />
+          
+          {/* Settings Routes */}
           <Route path="settings" element={<Settings />} />
         </Route>
         
