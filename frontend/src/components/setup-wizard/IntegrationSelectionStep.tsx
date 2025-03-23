@@ -1,6 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Integration } from '../../types';
+import api from '../../services/api';
+
+// Mock integrations data for development
+const MOCK_INTEGRATIONS = [
+  {
+    _id: 'leadSource_apollo',
+    name: 'Apollo',
+    type: 'leadSource',
+    isEnabled: false,
+    isConfigured: false
+  },
+  {
+    _id: 'leadSource_linkedin',
+    name: 'LinkedIn',
+    type: 'leadSource',
+    isEnabled: false,
+    isConfigured: false
+  },
+  {
+    _id: 'enrichment_clearbit',
+    name: 'Clearbit',
+    type: 'enrichment',
+    isEnabled: false,
+    isConfigured: false
+  },
+  {
+    _id: 'email_sendgrid',
+    name: 'SendGrid',
+    type: 'email',
+    isEnabled: false,
+    isConfigured: false
+  }
+];
 
 interface IntegrationSelectionStepProps {
   selectedIntegrations: string[];
@@ -25,15 +57,15 @@ const IntegrationSelectionStep: React.FC<IntegrationSelectionStepProps> = ({
     const fetchIntegrations = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/integrations');
-        setIntegrations(response.data);
+        const data = await api.getIntegrations();
+        setIntegrations(data);
         
         // If no integrations are selected yet, automatically select the first ones
         if (selectedIntegrations.length === 0) {
           const initialSelections = [
-            response.data.find((i: Integration) => i.type === 'leadSource')?._id,
-            response.data.find((i: Integration) => i.type === 'enrichment')?._id,
-            response.data.find((i: Integration) => i.type === 'email')?._id
+            data.find((i: Integration) => i.type === 'leadSource')?._id,
+            data.find((i: Integration) => i.type === 'enrichment')?._id,
+            data.find((i: Integration) => i.type === 'email')?._id
           ].filter(Boolean) as string[];
           
           setSelectedIntegrations(initialSelections);

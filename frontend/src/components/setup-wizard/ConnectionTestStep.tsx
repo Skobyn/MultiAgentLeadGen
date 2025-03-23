@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Integration, TestResult } from '../../types';
+import api from '../../services/api';
 
 interface ConnectionTestStepProps {
   selectedIntegrations: string[];
@@ -25,8 +25,7 @@ const ConnectionTestStep: React.FC<ConnectionTestStepProps> = ({
         setLoading(true);
         
         // Fetch all integrations
-        const response = await axios.get('/api/integrations');
-        const allIntegrations = response.data;
+        const allIntegrations = await api.getIntegrations();
         
         // Filter to only selected integrations
         const selectedIntegrationsData = allIntegrations.filter(
@@ -50,11 +49,40 @@ const ConnectionTestStep: React.FC<ConnectionTestStepProps> = ({
     try {
       setTesting(true);
       
-      // Call the API endpoint to test all connections
-      const response = await axios.post('/api/setup/test-connections');
+      // Test each integration individually and collect results
+      const results: Record<string, TestResult> = {};
       
-      // Update test results
-      setTestResults(response.data.results);
+      for (const integrationId of selectedIntegrations) {
+        setTestResults({
+          ...results,
+          [integrationId]: { 
+            integrationId,
+            success: false, 
+            message: 'Testing...', 
+            timestamp: new Date() 
+          }
+        });
+        
+        try {
+          const result = await api.testConnection(integrationId);
+          results[integrationId] = {
+            integrationId,
+            success: result.success,
+            message: result.message || (result.success ? 'Connection successful!' : 'Connection failed'),
+            timestamp: new Date()
+          };
+        } catch (error) {
+          results[integrationId] = {
+            integrationId,
+            success: false,
+            message: 'Error testing connection',
+            timestamp: new Date()
+          };
+        }
+      }
+      
+      // Update all test results
+      setTestResults(results);
     } catch (err) {
       setError('Failed to test connections');
       console.error(err);
@@ -69,23 +97,35 @@ const ConnectionTestStep: React.FC<ConnectionTestStepProps> = ({
       // Update UI to show testing for this integration
       setTestResults({
         ...testResults,
-        [integrationId]: { success: false, message: 'Testing...' }
+        [integrationId]: { 
+          integrationId,
+          success: false, 
+          message: 'Testing...', 
+          timestamp: new Date() 
+        }
       });
       
-      // Call the API endpoint to test this connection
-      const response = await axios.post(`/api/integrations/${integrationId}/test`);
+      // Call the API to test this connection
+      const result = await api.testConnection(integrationId);
       
       // Update test result for this integration
       setTestResults({
         ...testResults,
-        [integrationId]: response.data
+        [integrationId]: {
+          integrationId,
+          success: result.success,
+          message: result.message || (result.success ? 'Connection successful!' : 'Connection failed'),
+          timestamp: new Date()
+        }
       });
     } catch (err) {
       setTestResults({
         ...testResults,
         [integrationId]: { 
+          integrationId,
           success: false, 
-          message: 'Error testing connection' 
+          message: 'Error testing connection',
+          timestamp: new Date()
         }
       });
       console.error(err);

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import StepNavigation from './StepNavigation';
 import IntegrationSelectionStep from './IntegrationSelectionStep';
 import APIConfigurationStep from './APIConfigurationStep';
 import ConnectionTestStep from './ConnectionTestStep';
 import CompletionStep from './CompletionStep';
+import api from '../../services/api';
 
 const TOTAL_STEPS = 4;
+
+// Mock API for development if backend is not available
+const useMockAPI = true; // Set to false when backend is ready
 
 const WizardContainer: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -28,17 +31,17 @@ const WizardContainer: React.FC = () => {
     const fetchSetupStatus = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/setup/status');
-        setSetupStatus(response.data);
+        const status = await api.getSetupStatus();
+        setSetupStatus(status);
         
         // If setup is already completed, redirect to dashboard
-        if (response.data.setupCompleted) {
-          navigate('/dashboard');
+        if (status.setupCompleted) {
+          navigate('/');
           return;
         }
         
         // Set current step from server data
-        setCurrentStep(response.data.setupStep || 1);
+        setCurrentStep(status.setupStep || 1);
       } catch (err) {
         setError('Failed to fetch setup status');
         console.error(err);
@@ -55,7 +58,7 @@ const WizardContainer: React.FC = () => {
     const initializeSetup = async () => {
       try {
         if (currentStep === 1 && !loading) {
-          await axios.post('/api/setup/start');
+          await api.startSetup();
         }
       } catch (err) {
         setError('Failed to initialize setup');
@@ -70,11 +73,11 @@ const WizardContainer: React.FC = () => {
     try {
       // Save current step progress to server
       if (currentStep === 1) {
-        await axios.post(`/api/setup/step/${currentStep}`, {
+        await api.saveSetupStep(currentStep, {
           selectedIntegrations
         });
       } else if (currentStep === 2) {
-        await axios.post(`/api/setup/step/${currentStep}`, {
+        await api.saveSetupStep(currentStep, {
           apiConfigurations
         });
       }
@@ -100,13 +103,13 @@ const WizardContainer: React.FC = () => {
   const handleComplete = async () => {
     try {
       // Mark setup as complete on the server
-      await axios.post('/api/setup/complete', {
+      await api.completeSetup({
         defaultDataSources: selectedIntegrations.filter(id => id.includes('leadSource')),
         defaultEnrichmentServices: selectedIntegrations.filter(id => id.includes('enrichment'))
       });
       
       // Redirect to dashboard
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       setError('Failed to complete setup');
       console.error(err);

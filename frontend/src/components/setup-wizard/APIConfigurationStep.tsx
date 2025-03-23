@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Integration } from '../../types';
+import api from '../../services/api';
 
 interface APIConfigurationStepProps {
   selectedIntegrations: string[];
@@ -25,8 +25,7 @@ const APIConfigurationStep: React.FC<APIConfigurationStepProps> = ({
         setLoading(true);
         
         // Fetch all integrations
-        const response = await axios.get('/api/integrations');
-        const allIntegrations = response.data;
+        const allIntegrations = await api.getIntegrations();
         
         // Filter to only selected integrations
         const selectedIntegrationsData = allIntegrations.filter(
