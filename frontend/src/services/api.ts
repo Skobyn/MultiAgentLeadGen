@@ -1,6 +1,6 @@
 import axios from 'axios';
 import mockApi from './mockApi';
-import { Integration } from '../types';
+import { Integration, TestResult } from '../types';
 
 // Determine if we're running on Netlify
 const isNetlify = window.location.hostname.includes('netlify.app') || 
@@ -63,7 +63,7 @@ const api = {
     }
   },
   
-  testConnection: async (id: string) => {
+  testConnection: async (id: string): Promise<TestResult> => {
     if (isNetlify) {
       return await mockApi.testConnection(id);
     } else {

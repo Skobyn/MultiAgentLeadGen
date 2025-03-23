@@ -1,5 +1,5 @@
 // Mock API service for Netlify deployment
-import { Integration } from '../types';
+import { Integration, TestResult } from '../types';
 
 // Sample integrations data
 const integrations: Integration[] = [
@@ -132,13 +132,23 @@ export const mockApi = {
   },
   
   testConnection: (id: string) => {
-    return new Promise<{success: boolean; message?: string}>((resolve) => {
+    return new Promise<TestResult>((resolve) => {
       setTimeout(() => {
         const random = Math.random();
         if (random > 0.3) {
-          resolve({ success: true, message: 'Connection successful!' });
+          resolve({ 
+            integrationId: id,
+            success: true, 
+            message: 'Connection successful!',
+            timestamp: new Date()
+          });
         } else {
-          resolve({ success: false, message: 'Connection failed. Please check your credentials.' });
+          resolve({ 
+            integrationId: id,
+            success: false, 
+            message: 'Connection failed. Please check your credentials.',
+            timestamp: new Date()
+          });
         }
       }, 1500);
     });
