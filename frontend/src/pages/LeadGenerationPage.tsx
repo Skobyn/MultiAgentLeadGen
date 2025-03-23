@@ -32,7 +32,7 @@ const LeadGenerationPage: React.FC = () => {
   const [dataSources, setDataSources] = useState<Integration[]>([]);
   const [enrichmentServices, setEnrichmentServices] = useState<Integration[]>([]);
   const [systemConfig, setSystemConfig] = useState<SystemConfiguration>({
-    defaultLeadSources: [],
+    defaultDataSources: [],
     defaultEnrichmentServices: []
   });
   
@@ -86,7 +86,7 @@ const LeadGenerationPage: React.FC = () => {
         // Pre-select defaults
         setFormData(prev => ({
           ...prev,
-          dataSourceIds: configResponse.data.defaultLeadSources,
+          dataSourceIds: configResponse.data.defaultDataSources,
           enrichmentServiceIds: configResponse.data.defaultEnrichmentServices
         }));
         
