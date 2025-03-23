@@ -5,6 +5,7 @@ import IntegrationSelectionStep from './IntegrationSelectionStep';
 import APIConfigurationStep from './APIConfigurationStep';
 import ConnectionTestStep from './ConnectionTestStep';
 import CompletionStep from './CompletionStep';
+import { TestResult } from '../../types';
 import api from '../../services/api';
 
 const TOTAL_STEPS = 4;
@@ -20,7 +21,7 @@ const WizardContainer: React.FC = () => {
   }>({ setupCompleted: false, setupStep: 1 });
   const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([]);
   const [apiConfigurations, setApiConfigurations] = useState<Record<string, any>>({});
-  const [testResults, setTestResults] = useState<Record<string, any>>({});
+  const [testResults, setTestResults] = useState<Record<string, TestResult>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
