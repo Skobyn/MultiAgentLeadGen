@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Integration, SystemConfiguration } from '../types';
 
 interface LeadGenerationFormData {
   targetAudience: string;
@@ -11,19 +12,6 @@ interface LeadGenerationFormData {
   leadCount: number;
   dataSourceIds: string[];
   enrichmentServiceIds: string[];
-}
-
-interface Integration {
-  _id: string;
-  name: string;
-  type: string;
-  isEnabled: boolean;
-  isConfigured: boolean;
-}
-
-interface SystemConfiguration {
-  defaultLeadSources: string[];
-  defaultEnrichmentServices: string[];
 }
 
 const LeadGenerationPage: React.FC = () => {

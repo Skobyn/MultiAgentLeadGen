@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-interface Integration {
-  _id: string;
-  name: string;
-  type: string;
-  isEnabled: boolean;
-  isConfigured: boolean;
-  status: string;
-  credentials: Record<string, string>;
-}
+import { Integration } from '../../types';
 
 interface APICredentialFormProps {
   integration: Integration;

@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-interface Integration {
-  _id: string;
-  name: string;
-  type: string;
-}
-
-interface TestResult {
-  success: boolean;
-  message?: string;
-}
+import { Integration, TestResult } from '../../types';
 
 interface ConnectionTestStepProps {
   selectedIntegrations: string[];

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { TestResult } from '../../types';
 
 interface ConnectionTesterProps {
   integrationId: string;
   status: string;
   isConfigured: boolean;
-  onTestComplete?: (result: { success: boolean; message?: string }) => void;
+  onTestComplete?: (result: TestResult) => void;
 }
 
 const ConnectionTester: React.FC<ConnectionTesterProps> = ({
@@ -15,7 +16,7 @@ const ConnectionTester: React.FC<ConnectionTesterProps> = ({
   onTestComplete
 }) => {
   const [testing, setTesting] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; message?: string } | null>(null);
+  const [result, setResult] = useState<TestResult | null>(null);
   const [error, setError] = useState('');
 
   // Test the connection

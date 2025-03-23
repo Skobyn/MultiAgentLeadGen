@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-interface Integration {
-  _id: string;
-  name: string;
-  type: string;
-  isEnabled: boolean;
-  isConfigured: boolean;
-  status: string;
-  lastTested: string | null;
-  errorMessage: string | null;
-}
-
-interface SystemConfiguration {
-  defaultEnrichmentServices: string[];
-}
+import { Integration, SystemConfiguration } from '../../types';
 
 const EnrichmentSettings: React.FC = () => {
   const [integrations, setIntegrations] = useState<Integration[]>([]);

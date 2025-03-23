@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-interface Integration {
-  _id: string;
-  name: string;
-  type: string;
-  isEnabled: boolean;
-  isConfigured: boolean;
-  credentials: Record<string, string>;
-}
+import { Integration } from '../../types';
 
 interface APIConfigurationStepProps {
   selectedIntegrations: string[];
