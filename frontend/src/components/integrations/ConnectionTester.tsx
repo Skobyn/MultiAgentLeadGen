@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { TestResult } from '../../types';
+import api from '../../services/api';
 
 interface ConnectionTesterProps {
   integrationId: string;
@@ -27,22 +28,32 @@ const ConnectionTester: React.FC<ConnectionTesterProps> = ({
       setError('');
       
       // Call API to test connection
-      const response = await axios.post(`/api/integrations/${integrationId}/test`);
+      const response = await api.testConnection(integrationId);
       
       // Update result
-      setResult(response.data);
+      setResult(response);
       
       // Call parent callback if provided
       if (onTestComplete) {
-        onTestComplete(response.data);
+        onTestComplete(response);
       }
     } catch (err) {
       setError('Failed to test connection');
-      setResult({ success: false, message: 'Error testing connection' });
+      setResult({ 
+        integrationId, 
+        success: false, 
+        message: 'Error testing connection',
+        timestamp: new Date()
+      });
       
       // Call parent callback if provided
       if (onTestComplete) {
-        onTestComplete({ success: false, message: 'Error testing connection' });
+        onTestComplete({ 
+          integrationId, 
+          success: false, 
+          message: 'Error testing connection',
+          timestamp: new Date()
+        });
       }
       
       console.error(err);
