@@ -1,15 +1,5 @@
 import React from 'react';
-
-interface Integration {
-  _id: string;
-  name: string;
-  type: string;
-  isEnabled: boolean;
-  isConfigured: boolean;
-  status: string;
-  lastTested: string | null;
-  errorMessage: string | null;
-}
+import { Integration } from '../../types';
 
 interface IntegrationCardProps {
   integration: Integration;

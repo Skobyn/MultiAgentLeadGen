@@ -2,18 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import IntegrationCard from './IntegrationCard';
 import APICredentialForm from './APICredentialForm';
-
-interface Integration {
-  _id: string;
-  name: string;
-  type: string;
-  isEnabled: boolean;
-  isConfigured: boolean;
-  status: string;
-  lastTested: string | null;
-  errorMessage: string | null;
-  credentials: Record<string, string>;
-}
+import { Integration } from '../../types';
 
 const IntegrationsGrid: React.FC = () => {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
