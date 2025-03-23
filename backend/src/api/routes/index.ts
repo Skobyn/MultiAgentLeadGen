@@ -4,6 +4,7 @@ import leadRoutes from './lead.routes';
 import emailRoutes from './email.routes';
 import chatbotRoutes from './chatbot.routes';
 import integrationRoutes from './integration.routes';
+import setupRoutes from '../setup';
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use('/leads', leadRoutes);
 router.use('/emails', emailRoutes);
 router.use('/chatbot', chatbotRoutes);
 router.use('/integrations', integrationRoutes);
+router.use('/setup', setupRoutes);
 
 export default router;

@@ -10,6 +10,7 @@ const EmailCampaigns = lazy(() => import('./pages/EmailCampaigns/EmailCampaigns'
 const ChatbotInterface = lazy(() => import('./pages/ChatbotInterface/ChatbotInterface'));
 const Analytics = lazy(() => import('./pages/Analytics/Analytics'));
 const Settings = lazy(() => import('./pages/Settings/Settings'));
+const SetupWizard = lazy(() => import('./pages/Setup/SetupWizard'));
 const Login = lazy(() => import('./pages/Auth/Login'));
 const Register = lazy(() => import('./pages/Auth/Register'));
 
@@ -39,6 +40,13 @@ function App() {
         {/* Auth Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        
+        {/* Setup Wizard Route - Accessible without main layout */}
+        <Route path="/setup" element={
+          <ProtectedRoute>
+            <SetupWizard />
+          </ProtectedRoute>
+        } />
         
         {/* Protected Routes */}
         <Route path="/" element={
